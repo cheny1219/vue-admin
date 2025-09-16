@@ -34,22 +34,24 @@ const usePermissionStore = defineStore(
       },
       generateRoutes(roles) {
         return new Promise(resolve => {
+          const asyncRoutes = filterDynamicRoutes(dynamicRoutes)
+          asyncRoutes.forEach(route => { router.addRoute(route) })
           // 向后端请求路由数据
-          getRouters().then(res => {
-            const sdata = JSON.parse(JSON.stringify(res.data))
-            const rdata = JSON.parse(JSON.stringify(res.data))
-            const defaultData = JSON.parse(JSON.stringify(res.data))
-            const sidebarRoutes = filterAsyncRouter(sdata)
-            const rewriteRoutes = filterAsyncRouter(rdata, false, true)
-            const defaultRoutes = filterAsyncRouter(defaultData)
-            const asyncRoutes = filterDynamicRoutes(dynamicRoutes)
-            asyncRoutes.forEach(route => { router.addRoute(route) })
-            this.setRoutes(rewriteRoutes)
-            this.setSidebarRouters(constantRoutes.concat(sidebarRoutes))
-            this.setDefaultRoutes(sidebarRoutes)
-            this.setTopbarRoutes(defaultRoutes)
-            resolve(rewriteRoutes)
-          })
+          // getRouters().then(res => {
+          //   const sdata = JSON.parse(JSON.stringify(res.data))
+          //   const rdata = JSON.parse(JSON.stringify(res.data))
+          //   const defaultData = JSON.parse(JSON.stringify(res.data))
+          //   const sidebarRoutes = filterAsyncRouter(sdata)
+          //   const rewriteRoutes = filterAsyncRouter(rdata, false, true)
+          //   const defaultRoutes = filterAsyncRouter(defaultData)
+          //   const asyncRoutes = filterDynamicRoutes(dynamicRoutes)
+          //   asyncRoutes.forEach(route => { router.addRoute(route) })
+          //   this.setRoutes(rewriteRoutes)
+          //   this.setSidebarRouters(constantRoutes.concat(sidebarRoutes))
+          //   this.setDefaultRoutes(sidebarRoutes)
+          //   this.setTopbarRoutes(defaultRoutes)
+          //   resolve(rewriteRoutes)
+          // })
         })
       }
     }
@@ -100,15 +102,19 @@ function filterChildren(childrenMap, lastRouter = false) {
 export function filterDynamicRoutes(routes) {
   const res = []
   routes.forEach(route => {
-    if (route.permissions) {
-      if (auth.hasPermiOr(route.permissions)) {
-        res.push(route)
-      }
-    } else if (route.roles) {
-      if (auth.hasRoleOr(route.roles)) {
-        res.push(route)
-      }
+    if(auth.hasPermiOr(route.permissions)){
+      res.push(route)
     }
+
+    // if (route.permissions) {
+    //   if (auth.hasPermiOr(route.permissions)) {
+    //     res.push(route)
+    //   }
+    // } else if (route.roles) {
+    //   if (auth.hasRoleOr(route.roles)) {
+    //     res.push(route)
+    //   }
+    // }
   })
   return res
 }

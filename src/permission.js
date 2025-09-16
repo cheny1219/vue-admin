@@ -1,4 +1,4 @@
-import router from './router'
+import router, {dynamicRoutes} from './router'
 import { ElMessage } from 'element-plus'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
@@ -7,7 +7,8 @@ import { isHttp, isPathMatch } from '@/utils/validate'
 import { isRelogin } from '@/utils/request'
 import useUserStore from '@/store/modules/user'
 import useSettingsStore from '@/store/modules/settings'
-import usePermissionStore from '@/store/modules/permission'
+import usePermissionStore, {filterDynamicRoutes} from '@/store/modules/permission'
+
 
 NProgress.configure({ showSpinner: false })
 
@@ -33,15 +34,14 @@ router.beforeEach((to, from, next) => {
         // 判断当前用户是否已拉取完user_info信息
         useUserStore().getInfo().then(() => {
           isRelogin.show = false
-          usePermissionStore().generateRoutes().then(accessRoutes => {
-            // 根据roles权限生成可访问的路由表
-            accessRoutes.forEach(route => {
-              if (!isHttp(route.path)) {
-                router.addRoute(route) // 动态添加可访问路由表
-              }
-            })
-            next({ ...to, replace: true }) // hack方法 确保addRoutes已完成
-          })
+          const asyncRoutes = filterDynamicRoutes(dynamicRoutes)
+          asyncRoutes.forEach(route => { router.addRoute(route) })
+          // 更新侧边栏路由数据
+          usePermissionStore().setRoutes(asyncRoutes)
+          const currentSidebarRouters = usePermissionStore().sidebarRouters
+          usePermissionStore().setSidebarRouters([...currentSidebarRouters, ...asyncRoutes])
+          usePermissionStore().setDefaultRoutes(usePermissionStore().sidebarRouters)
+          next({ ...to, replace: true }) // hack方法 确保addRoutes已完成
         }).catch(err => {
           useUserStore().logOut().then(() => {
             ElMessage.error(err)

@@ -81,6 +81,12 @@ export const constantRoutes = [
         component: () => import('@/views/system/user/profile/index'),
         name: 'Profile',
         meta: { title: '个人中心', icon: 'user' }
+      },
+      {
+        path: 'index',
+        component: () => import('@/views/system/user/profile/index'),
+        name: 'Profile',
+        meta: { title: '个人中心', icon: 'user' }
       }
     ]
   }
@@ -89,74 +95,59 @@ export const constantRoutes = [
 // 动态路由，基于用户权限动态去加载
 export const dynamicRoutes = [
   {
-    path: '/system/user-auth',
+    path: '/system/user/index',
     component: Layout,
-    hidden: true,
-    permissions: ['system:user:edit'],
+    hidden: false,
+    permissions: ['R1','R48','R49','R50','R52','R53'],
+    meta: { title: '会员管理'},
     children: [
       {
-        path: 'role/:userId(\\d+)',
-        component: () => import('@/views/system/user/authRole'),
-        name: 'AuthRole',
-        meta: { title: '分配角色', activeMenu: '/system/user' }
+        path: '/system/user/index',
+        component: () => import('@/views/tool/gen/editTable'),
+        name: 'userManage',
+        meta: { title: '会员管理', activeMenu: '/tool/gen' }
+      },
+      {
+        path: 'index/:tableId(\\d+)',
+        component: () => import('@/views/tool/gen/editTable'),
+        name: 'userSubscribe',
+        meta: { title: '订阅数据', activeMenu: '/tool/gen' }
       }
     ]
   },
   {
-    path: '/system/role-auth',
+    path: '/user/index',
     component: Layout,
-    hidden: true,
-    permissions: ['system:role:edit'],
-    children: [
-      {
-        path: 'user/:roleId(\\d+)',
-        component: () => import('@/views/system/role/authUser'),
-        name: 'AuthUser',
-        meta: { title: '分配用户', activeMenu: '/system/role' }
-      }
-    ]
-  },
-  {
-    path: '/system/dict-data',
-    component: Layout,
-    hidden: true,
-    permissions: ['system:dict:list'],
-    children: [
-      {
-        path: 'index/:dictId(\\d+)',
-        component: () => import('@/views/system/dict/data'),
-        name: 'Data',
-        meta: { title: '字典数据', activeMenu: '/system/dict' }
-      }
-    ]
-  },
-  {
-    path: '/monitor/job-log',
-    component: Layout,
-    hidden: true,
-    permissions: ['monitor:job:list'],
-    children: [
-      {
-        path: 'index/:jobId(\\d+)',
-        component: () => import('@/views/monitor/job/log'),
-        name: 'JobLog',
-        meta: { title: '调度日志', activeMenu: '/monitor/job' }
-      }
-    ]
-  },
-  {
-    path: '/tool/gen-edit',
-    component: Layout,
-    hidden: true,
-    permissions: ['tool:gen:edit'],
+    hidden: false,
+    permissions: ['R1','R48','R49','R50','R52','R53'],
+    meta: { title: '代理公司管理'},
     children: [
       {
         path: 'index/:tableId(\\d+)',
         component: () => import('@/views/tool/gen/editTable'),
-        name: 'GenEdit',
-        meta: { title: '修改生成配置', activeMenu: '/tool/gen' }
+        name: 'companyManage',
+        meta: { title: '公司管理', activeMenu: '/tool/gen' }
+      },
+      {
+        path: 'index/:tableId(\\d+)',
+        component: () => import('@/views/tool/gen/editTable'),
+        name: 'companyTypeManage',
+        meta: { title: '公司权限管理', activeMenu: '/tool/gen' }
+      },
+      {
+        path: 'index/:tableId(\\d+)',
+        component: () => import('@/views/tool/gen/editTable'),
+        name: 'companyAccoutManage',
+        meta: { title: '账户管理', activeMenu: '/tool/gen' }
       }
     ]
+  },
+  {
+    path: '/user/index',
+    component: Layout,
+    hidden: false,
+    permissions: ['R1','R48','R49','R50','R52','R53'],
+    meta: { title: '交易管理'}
   }
 ]
 

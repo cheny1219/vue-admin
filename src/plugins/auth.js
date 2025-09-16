@@ -1,15 +1,22 @@
 import useUserStore from '@/store/modules/user'
 
 function authPermission(permission) {
-  const all_permission = "*:*:*"
-  const permissions = useUserStore().permissions
-  if (permission && permission.length > 0) {
-    return permissions.some(v => {
-      return all_permission === v || v === permission
-    })
-  } else {
-    return false
-  }
+  const roles = useUserStore().roles
+
+  return roles.some(role => {
+    // 如果权限数组包含用户角色，则返回true
+    return permission.includes(role)
+  })
+
+  // const all_permission = "*:*:*"
+  // const permissions = useUserStore().permissions
+  // if (permission && permission.length > 0) {
+  //   return permissions.some(v => {
+  //     return all_permission === v || v === permission
+  //   })
+  // } else {
+  //   return false
+  // }
 }
 
 function authRole(role) {
