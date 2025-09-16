@@ -43,10 +43,10 @@ router.beforeEach((to, from, next) => {
           usePermissionStore().setDefaultRoutes(usePermissionStore().sidebarRouters)
           next({ ...to, replace: true }) // hack方法 确保addRoutes已完成
         }).catch(err => {
-          useUserStore().logOut().then(() => {
-            ElMessage.error(err)
-            next({ path: '/' })
-          })
+          // useUserStore().logOut().then(() => {
+          //   ElMessage.error(err)
+          //   next({ path: '/' })
+          // })
         })
       } else {
         next()

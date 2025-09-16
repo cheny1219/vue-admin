@@ -58,19 +58,6 @@ export const constantRoutes = [
     hidden: true
   },
   {
-    path: '',
-    component: Layout,
-    redirect: '/index',
-    children: [
-      {
-        path: '/index',
-        component: () => import('@/views/index'),
-        name: 'Index',
-        meta: { title: '首页', icon: 'dashboard', affix: true }
-      }
-    ]
-  },
-  {
     path: '/user',
     component: Layout,
     hidden: true,
@@ -116,7 +103,7 @@ export const dynamicRoutes = [
     ]
   },
   {
-    path: '/user/index',
+    path: '/system/company/index',
     component: Layout,
     hidden: false,
     permissions: ['R1','R48','R49','R50','R52','R53'],
@@ -143,12 +130,19 @@ export const dynamicRoutes = [
     ]
   },
   {
-    path: '/user/index',
+    path: '',
     component: Layout,
-    hidden: false,
+    redirect: '/orderManage',
     permissions: ['R1','R48','R49','R50','R52','R53'],
-    meta: { title: '交易管理'}
-  }
+    children: [
+      {
+        path: '/orderManage',
+        component: () => import('@/views/index'),
+        name: 'orderManageIndex',
+        meta: { title: '交易管理', icon: 'dashboard', affix: true }
+      }
+    ]
+  },
 ]
 
 const router = createRouter({
