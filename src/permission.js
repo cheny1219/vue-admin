@@ -40,7 +40,7 @@ router.beforeEach((to, from, next) => {
           usePermissionStore().setRoutes(asyncRoutes)
           const currentSidebarRouters = usePermissionStore().sidebarRouters
           usePermissionStore().setSidebarRouters([...currentSidebarRouters, ...asyncRoutes])
-          usePermissionStore().setDefaultRoutes(usePermissionStore().sidebarRouters)
+          // usePermissionStore().setDefaultRoutes(usePermissionStore().sidebarRouters)
           next({ ...to, replace: true }) // hack方法 确保addRoutes已完成
         }).catch(err => {
           // useUserStore().logOut().then(() => {

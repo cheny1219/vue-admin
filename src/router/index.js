@@ -82,30 +82,32 @@ export const constantRoutes = [
 // 动态路由，基于用户权限动态去加载
 export const dynamicRoutes = [
   {
-    path: '/system/user/index',
+    path: '/user',
     component: Layout,
     hidden: false,
+    name: 'userManages',
     permissions: ['R1','R48','R49','R50','R52','R53'],
     meta: { title: '会员管理'},
     children: [
       {
-        path: '/system/user/index',
+        path: 'index',
         component: () => import('@/views/tool/gen/editTable'),
         name: 'userManage',
-        meta: { title: '会员管理', activeMenu: '/tool/gen' }
+        meta: { title: '会员管理' }
       },
       {
-        path: 'index/:tableId(\\d+)',
+        path: 'userSubscribe',
         component: () => import('@/views/tool/gen/editTable'),
         name: 'userSubscribe',
-        meta: { title: '订阅数据', activeMenu: '/tool/gen' }
+        meta: { title: '订阅数据' }
       }
     ]
   },
   {
-    path: '/system/company/index',
+    path: '/companyManage',
     component: Layout,
     hidden: false,
+    name: 'companyManages',
     permissions: ['R1','R48','R49','R50','R52','R53'],
     meta: { title: '代理公司管理'},
     children: [
@@ -130,8 +132,9 @@ export const dynamicRoutes = [
     ]
   },
   {
-    path: '',
+    path: '/orderManage',
     component: Layout,
+    name: 'orderManage',
     redirect: '/orderManage',
     permissions: ['R1','R48','R49','R50','R52','R53'],
     children: [
@@ -140,6 +143,47 @@ export const dynamicRoutes = [
         component: () => import('@/views/index'),
         name: 'orderManageIndex',
         meta: { title: '交易管理', icon: 'dashboard', affix: true }
+      }
+    ]
+  },
+  {
+    path: '/help',
+    component: Layout,
+    hidden: false,
+    name: 'helpCenter',
+    permissions: ['R1','R48','R49','R50','R52','R53'],
+    meta: { title: '帮助中心管理',icon: 'dashboard'},
+    children: [
+      {
+        path: 'house',
+        component: () => import('@/views/system/help/house'),
+        name: 'houseHelp',
+        meta: { title: 'House730帮助中心', icon: 'dashboard' }
+      },
+      {
+        path: 'pms',
+        component: () => import('@/views/system/help/pms'),
+        name: 'PMSHelp',
+        meta: { title: 'PMS730帮助中心', icon: 'dashboard' }
+      },
+      {
+        path: 'categoryHouse',
+        component: () => import('@/views/tool/gen/editTable'),
+        name: 'categoryHouseHelp',
+        meta: { title: 'House730分类管理', icon: 'dashboard'}
+      },
+      {
+        path: 'categoryPms',
+        component: () => import('@/views/tool/gen/editTable'),
+        name: 'categoryPMSHelp',
+        meta: { title: 'PMS730分类管理', icon: 'dashboard'}
+      },
+      {
+        path: 'addHelp',
+        hidden: true,
+        component: () => import('@/views/system/help/addHelp'),
+        name: 'addHelp',
+        meta: { title: '添加問題', icon: 'dashboard'}
       }
     ]
   },

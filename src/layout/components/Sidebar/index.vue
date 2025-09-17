@@ -71,7 +71,7 @@ const activeMenu = computed(() => {
 <style lang="scss" scoped>
 .sidebar-container {
   background-color: v-bind(getMenuBackground);
-  
+
   .scrollbar-wrapper {
     background-color: v-bind(getMenuBackground);
   }

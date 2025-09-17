@@ -59,6 +59,10 @@ export default {
       type: "warning",
     })
   },
+  // 确认窗体
+  confirms(content,title,options) {
+    return ElMessageBox.confirm(content, title, options)
+  },
   // 提交内容
   prompt(content) {
     return ElMessageBox.prompt(content, "系统提示", {
