@@ -184,6 +184,13 @@ export const dynamicRoutes = [
         component: () => import('@/views/system/help/addHelp'),
         name: 'addHelp',
         meta: { title: '添加問題', icon: 'dashboard'}
+      },
+      {
+        path: 'editHelp',
+        hidden: true,
+        component: () => import('@/views/system/help/editHelp'),
+        name: 'editHelp',
+        meta: { title: '編輯問題', icon: 'dashboard'}
       }
     ]
   },

@@ -313,7 +313,7 @@ function handleAdd() {
 
 /** 修改按钮操作 */
 function handleUpdate(row) {
-  console.log(row)
+  router.push({ path: '/help/editHelp',query: { helpType: 2,HelpcenterID:row.HelpcenterID } })
 }
 
 /** 置顶按钮操作 */
@@ -358,8 +358,36 @@ function handleDown(row) {
   })
   console.log(row)
 }
+/** 提交按钮前检查参数 */
+function handSubmitcheck(){
+  if (topFormSelect.value === 1) {
+    if (topForm.value.VideoPath === '' || topForm.value.VideoPath.trim() === '') {
+      proxy.$modal.alertWarning("請填寫YouTube或Facebook網站影片連結")
+      return false
+    }else if(topForm.value.VideoPath.indexOf("youtube.com") === -1
+        && topForm.value.VideoPath.indexOf("facebook.com") === -1
+        && topForm.value.VideoPath.indexOf("fb.watch") === -1
+        && topForm.value.VideoPath.indexOf("youtu.be") === -1){
+      proxy.$modal.alertWarning("請填寫YouTube或Facebook網站影片連結")
+      return false
+    }else{
+      return true
+    }
+  }
+  if (topFormSelect.value === 2) {
+    if (topForm.value.ImagePath === '' || topForm.value.ImagePath.trim() === '') {
+      proxy.$modal.alertWarning("請上傳圖片")
+      return false
+    }else{
+      return true
+    }
+  }
+}
 /** 提交按钮 */
 function submitForm() {
+  if(!handSubmitcheck()){
+    return
+  }
   if(title.value === "設置置頂"){
     checkCount({'HelpType':2}).then(resp => {
       if (resp === 1) {

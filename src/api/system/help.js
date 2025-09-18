@@ -64,6 +64,26 @@ export function insert(data) {
     data:data
   })
 }
+export function getHelpById(query) {
+  return request({
+    url: '/help/getHelpById',
+    method: 'get',
+    params: query
+  })
+}
+
+
+export function edit(data) {
+  return request({
+    url: '/help/edit',
+    method: 'post',
+    headers: {
+      "Content-Type" : 'application/x-www-form-urlencoded;charset=UTF-8'
+    },
+    data:data
+  })
+}
+
 
 
 
