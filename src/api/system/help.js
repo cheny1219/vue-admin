@@ -47,7 +47,23 @@ export function delHelp(query) {
     params:query
   })
 }
+export function getSetIds() {
+  return request({
+    url: '/help/getSetIdByAddHelp',
+    method: 'get',
+  })
+}
 
+export function insert(data) {
+  return request({
+    url: '/help/insert',
+    method: 'post',
+    headers: {
+      "Content-Type" : 'application/x-www-form-urlencoded;charset=UTF-8'
+    },
+    data:data
+  })
+}
 
 
 

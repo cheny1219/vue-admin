@@ -122,7 +122,7 @@
       </el-table-column>
       <el-table-column label="是否置頂" align="center" prop="IsTop">
         <template #default="scope">
-          <dict-tag :options="sys_normal_disable" :value="scope.row.IsTop" />
+          {{scope.row.IsTop ? '是':'否'}}
         </template>
       </el-table-column>
       <el-table-column label="创建时间" align="center" prop="CreateTime" width="180">

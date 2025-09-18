@@ -43,6 +43,8 @@ import ImageUpload from "@/components/ImageUpload"
 import ImagePreview from "@/components/ImagePreview"
 // 字典标签组件
 import DictTag from '@/components/DictTag'
+// ueditorPlus组件
+import VueUeditorWrap from 'vue-ueditor-wrap';
 
 const app = createApp(App)
 
@@ -65,11 +67,13 @@ app.component('ImageUpload', ImageUpload)
 app.component('ImagePreview', ImagePreview)
 app.component('RightToolbar', RightToolbar)
 app.component('Editor', Editor)
+app.component('VueUeditorWrap', VueUeditorWrap)
 
 app.use(router)
 app.use(store)
 app.use(plugins)
 app.use(elementIcons)
+app.use(VueUeditorWrap)
 app.component('svg-icon', SvgIcon)
 
 directive(app)
