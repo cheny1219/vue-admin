@@ -131,3 +131,12 @@ export function categoryAddToUpdate(data) {
   })
 }
 
+export function upOrDownCatagory(query) {
+  return request({
+    url: '/help/upOrDownCatagory',
+    method: 'get',
+    params:query
+  })
+}
+
+

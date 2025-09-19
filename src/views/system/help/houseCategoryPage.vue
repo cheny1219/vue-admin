@@ -43,9 +43,15 @@
     <el-table v-loading="loading" :data="helpList">
       <el-table-column label="問題一級分類" align="center" prop="CategoryName" />
       <el-table-column label="分類排序" align="center" prop="Sequence" />
-      <el-table-column label="顯示狀態" align="center" prop="IsShow">
+      <el-table-column label="顯示開關" align="center"  width="180">
         <template #default="scope">
-          {{scope.row.IsShow ? '是':'否'}}
+          <el-switch
+              v-model="scope.row.IsShow"
+              inline-prompt
+              active-text="顯示"
+              inactive-text="隱藏"
+              :before-change="() => openTips(scope.row)"
+          />
         </template>
       </el-table-column>
       <el-table-column label="创建时间" align="center" prop="CreateTime" width="180">
@@ -157,7 +163,6 @@ watch(updateTime,(newVal,oldVal)=>{
 /** 查询岗位列表 */
 function getList() {
   loading.value = true
-  console.log(queryParams.value)
   listCategory(queryParams.value).then(response => {
     helpList.value = response.data.list
     total.value = response.data.total
@@ -266,6 +271,45 @@ function unTop(){
 function cancel() {
   open.value = false
   reset()
+}
+/** 开关切换前执行操作 */
+const openTips = (row) =>{
+  return new Promise(async (resolve, reject) => {
+    if (row.IsShow === true) {
+      proxy.$modal.confirms(
+          '關閉分類將隱藏所有該分類下的二級分類及問題<br><span style="color: red;">是否確認關閉？</span>',
+          '',
+          {
+            dangerouslyUseHTMLString: true,
+            type: 'warning',
+            icon: 'Warning',
+            confirmButtonText: '是,確認',
+            cancelButtonText: '取消',
+          }
+      ).then(function() {
+        upOrDownCatagory({'categoryID':row.CategoryID,'isShow':!row.IsShow}).then(res =>{
+          if (res === 1) {
+            proxy.$modal.msgSuccess("操作成功")
+            resolve(true)
+            getList()
+          }
+        })
+      }).catch(() => {
+        reject(false)
+      })
+    }else{
+      upOrDownCatagory({'categoryID':row.CategoryID,'isShow':!row.IsShow}).then(res =>{
+        if (res === 1) {
+          proxy.$modal.msgSuccess("操作成功")
+          resolve(true)
+          getList()
+        }else{
+          reject(false)
+        }
+      })
+    }
+
+  })
 }
 getList()
 </script>

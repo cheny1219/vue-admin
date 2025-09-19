@@ -58,6 +58,17 @@
           <span>{{ parseTime(scope.row.UpdateTime) }}</span>
         </template>
       </el-table-column>
+      <el-table-column label="顯示開關" align="center"  width="180">
+        <template #default="scope">
+          <el-switch
+              v-model="scope.row.IsShow"
+              inline-prompt
+              active-text="顯示"
+              inactive-text="隱藏"
+              :before-change="() => openTips(scope.row)"
+          />
+        </template>
+      </el-table-column>
       <el-table-column fixed="right" label="操作" width="220" align="center" class-name="small-padding fixed-width">
         <template #default="scope">
           <el-button link type="primary" @click="toSub(scope.row)">二級分類管理</el-button>
@@ -99,8 +110,7 @@
 </template>
 
 <script setup name="Help">
-import { listCategory,delHelpCategory,categoryAddToUpdate } from "@/api/system/help"
-import { uploadImage } from "@/api/system/upload"
+import {listCategory, delHelpCategory, categoryAddToUpdate, upOrDownCatagory, delHelp} from "@/api/system/help"
 const router = useRouter()
 
 const { proxy } = getCurrentInstance()
@@ -157,7 +167,6 @@ watch(updateTime,(newVal,oldVal)=>{
 /** 查询岗位列表 */
 function getList() {
   loading.value = true
-  console.log(queryParams.value)
   listCategory(queryParams.value).then(response => {
     helpList.value = response.data.list
     total.value = response.data.total
@@ -236,36 +245,49 @@ function reset() {
     HelpType:2
   }
 }
-/** 取消指定按钮操作 */
-function unTop(){
-  proxy.$modal.confirm(
-      '取消後幫助中心首頁將沒有置頂問題<br><span style="color: red;">是否確認繼續？</span>',
-      '',
-      {
-        dangerouslyUseHTMLString: true,
-        type: 'warning',
-        icon: 'Warning',
-        confirmButtonText: '是,確認',
-        cancelButtonText: '取消',
-      }
-  ).then(function() {
-    form.value.IsTop = 0
-    form.value.VideoPath=''
-    form.value.ImagePath=''
-    proxy.$refs["postRef"].validate(valid => {
-      editTop(form.value).then(response => {
-        proxy.$modal.msgSuccess("操作成功")
-        open.value = false
-      })
-    })
-  }).then(() => {
-    getList()
-  }).catch(() => {})
-}
 /** 取消按钮 */
 function cancel() {
   open.value = false
   reset()
+}
+/** 开关切换前执行操作 */
+const openTips = (row) =>{
+  return new Promise(async (resolve, reject) => {
+    if (row.IsShow === true) {
+      proxy.$modal.confirms(
+          '關閉分類將隱藏所有該分類下的二級分類及問題<br><span style="color: red;">是否確認關閉？</span>',
+          '',
+          {
+            dangerouslyUseHTMLString: true,
+            type: 'warning',
+            icon: 'Warning',
+            confirmButtonText: '是,確認',
+            cancelButtonText: '取消',
+          }
+      ).then(function() {
+        upOrDownCatagory({'categoryID':row.CategoryID,'isShow':!row.IsShow}).then(res =>{
+          if (res === 1) {
+            proxy.$modal.msgSuccess("操作成功")
+            resolve(true)
+            getList()
+          }
+        })
+      }).catch(() => {
+        reject(false)
+      })
+    }else{
+      upOrDownCatagory({'categoryID':row.CategoryID,'isShow':!row.IsShow}).then(res =>{
+        if (res === 1) {
+          proxy.$modal.msgSuccess("操作成功")
+          resolve(true)
+          getList()
+        }else{
+          reject(false)
+        }
+      })
+    }
+
+  })
 }
 getList()
 </script>
