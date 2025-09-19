@@ -147,6 +147,21 @@ export const dynamicRoutes = [
     ]
   },
   {
+    path: '/userSms',
+    component: Layout,
+    name: 'userSmsLog',
+    redirect: 'LogIndex',
+    permissions: ['R1','R48','R49','R50','R52','R53'],
+    children: [
+      {
+        path: 'LogIndex',
+        component: () => import('@/views/system/userSmsLog/index'),
+        name: 'orderManageIndex',
+        meta: { title: '驗證碼記錄', icon: 'dashboard', affix: true }
+      }
+    ]
+  },
+  {
     path: '/help',
     component: Layout,
     hidden: false,
