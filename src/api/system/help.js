@@ -85,5 +85,49 @@ export function edit(data) {
 }
 
 
+export function addType(data) {
+  return request({
+    url: '/help/addType',
+    method: 'post',
+    headers: {
+      "Content-Type" : 'application/x-www-form-urlencoded;charset=UTF-8'
+    },
+    data:data
+  })
+}
+export function editType(data) {
+  return request({
+    url: '/help/editType',
+    method: 'post',
+    headers: {
+      "Content-Type" : 'application/x-www-form-urlencoded;charset=UTF-8'
+    },
+    data:data
+  })
+}
+export function listCategory(query) {
+  return request({
+    url: '/help/getCategory',
+    method: 'get',
+    params:query
+  })
+}
 
+export function delHelpCategory(query) {
+  return request({
+    url: '/help/delHelpCategory',
+    method: 'get',
+    params:query
+  })
+}
+export function categoryAddToUpdate(data) {
+  return request({
+    url: '/help/category/addToUpdate',
+    method: 'post',
+    headers: {
+      "Content-Type" : 'application/x-www-form-urlencoded;charset=UTF-8'
+    },
+    data:data
+  })
+}
 

@@ -97,7 +97,7 @@
         <el-button type="primary" icon="Search" @click="handleQuery">搜索</el-button>
         <el-button icon="Refresh" @click="resetQuery">重置</el-button>
         <el-button icon="Edit" @click="handleAdd">添加問題</el-button>
-        <el-button icon="Memo" @click="handleAdd">熱門/常見問題</el-button>
+        <el-button icon="Memo" @click="toHelpType">熱門/常見問題</el-button>
       </el-form-item>
     </el-form>
     <el-table v-loading="loading" :data="helpList">
@@ -130,7 +130,7 @@
           <span>{{ parseTime(scope.row.CreateTime) }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="创建时间" align="center" prop="UpdateTime" width="180">
+      <el-table-column label="修改时间" align="center" prop="UpdateTime" width="180">
         <template #default="scope">
           <span>{{ parseTime(scope.row.UpdateTime) }}</span>
         </template>
@@ -310,7 +310,11 @@ function initSubCategory(val){
 function handleAdd() {
   router.push({ path: '/help/addHelp',query: { helpType: 2 } })
 }
-
+/** 热门/常见问题按钮操作 */
+function toHelpType() {
+  router.push({ path: '/help/helpType',query: { helpType: 2 } })
+}
+toHelpType
 /** 修改按钮操作 */
 function handleUpdate(row) {
   router.push({ path: '/help/editHelp',query: { helpType: 2,HelpcenterID:row.HelpcenterID } })

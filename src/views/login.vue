@@ -118,7 +118,6 @@ function handleLogin() {
       // }
       // 调用action的登录方法
       userStore.login(loginForm.value).then(() => {
-
         router.push({ path: '/user/index' })
       }).catch(() => {
         loading.value = false

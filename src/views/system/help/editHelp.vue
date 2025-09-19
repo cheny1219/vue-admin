@@ -318,7 +318,7 @@ function getParam() {
 }
 /** 初始化一级下拉 */
 function initCategory() {
-  getCategory({'level': 1, 'helpType': 2}).then(response => {
+  getCategory({'level': 1, 'helpType': helpType}).then(response => {
     category_select.value = response
   })
 }
@@ -329,7 +329,7 @@ function initSubCategory(val) {
     subCategory_select.value = []
     tableForm.value.SubCategoryID = ''
   }else{
-    getCategory({'pid': val, 'helpType': 2}).then(response => {
+    getCategory({'pid': val, 'helpType': helpType}).then(response => {
       subCategory_select.value = response
     })
   }

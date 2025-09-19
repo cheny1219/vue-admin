@@ -199,8 +199,8 @@ const setList = ref([])
 const setArray = ref([])
 let category_select = ref([])
 let subCategory_select = ref([])
-const content = ref('<p>Hello UEditorPlus</p>')
-const contentEN = ref('<p>Hello UEditorPlus</p>')
+const content = ref('<p></p>')
+const contentEN = ref('<p></p>')
 const UE_CN = ref(null)
 const UE_EN = ref(null)
 const label = ref(['','','','',''])
@@ -316,7 +316,7 @@ function getParam() {
 }
 /** 初始化一级下拉 */
 function initCategory() {
-  getCategory({'level': 1, 'helpType': 2}).then(response => {
+  getCategory({'level': 1, 'helpType': helpType}).then(response => {
     category_select.value = response
   })
 }
@@ -327,7 +327,7 @@ function initSubCategory(val) {
     subCategory_select.value = []
     tableForm.value.SubCategoryID = ''
   }else{
-    getCategory({'pid': val, 'helpType': 2}).then(response => {
+    getCategory({'pid': val, 'helpType': helpType}).then(response => {
       subCategory_select.value = response
     })
   }

@@ -167,16 +167,30 @@ export const dynamicRoutes = [
         meta: { title: 'PMS730帮助中心', icon: 'dashboard' }
       },
       {
-        path: 'categoryHouse',
-        component: () => import('@/views/tool/gen/editTable'),
-        name: 'categoryHouseHelp',
-        meta: { title: 'House730分类管理', icon: 'dashboard'}
+        path: 'houseCategoryPage',
+        component: () => import('@/views/system/help/houseCategoryPage'),
+        name: 'houseCategoryPage',
+        meta: { title: 'House730分類管理', icon: 'dashboard' }
       },
       {
-        path: 'categoryPms',
-        component: () => import('@/views/tool/gen/editTable'),
-        name: 'categoryPMSHelp',
-        meta: { title: 'PMS730分类管理', icon: 'dashboard'}
+        path: 'pmsCategoryPage',
+        component: () => import('@/views/system/help/pmsCategoryPage'),
+        name: 'pmsCategoryPage',
+        meta: { title: 'PMS730分類管理', icon: 'dashboard' }
+      },
+      {
+        path: 'pmsSubCategoryPage',
+        hidden: true,
+        component: () => import('@/views/system/help/pmsSubCategoryPage'),
+        name: 'pmsSubCategoryPage',
+        meta: { title: '二級分類管理', icon: 'dashboard'}
+      },
+      {
+        path: 'houseSubCategoryPage',
+        hidden: true,
+        component: () => import('@/views/system/help/houseSubCategoryPage'),
+        name: 'houseSubCategoryPage',
+        meta: { title: '二級分類管理', icon: 'dashboard'}
       },
       {
         path: 'addHelp',
@@ -191,6 +205,13 @@ export const dynamicRoutes = [
         component: () => import('@/views/system/help/editHelp'),
         name: 'editHelp',
         meta: { title: '編輯問題', icon: 'dashboard'}
+      },
+      {
+        path: 'helpType',
+        hidden: true,
+        component: () => import('@/views/system/help/helpHot'),
+        name: 'editHelp',
+        meta: { title: '熱門/常見問題', icon: 'dashboard'}
       }
     ]
   },
